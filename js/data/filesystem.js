@@ -2,43 +2,24 @@ export const FS = {
   "/": {
     type: "dir",
     children: {
-      about: {
+      "about.txt": {
         type: "file",
-        content: "Hi, I'm Aryan.\nBTech CSE (AI/ML).\nI like ML, Linux and running marathons."
+        content: "Name: ARYAN\nRole: ML Engineer & Linux Enthusiast\nBio: Building neural networks and running marathons."
       },
-
-      skills: {
-        type: "file",
-        content: "Python\nC++\nMachine Learning\nDeep Learning\nLinux"
-      },
-
-      projects: {
+      "projects": {
         type: "dir",
         children: {
-          "sudoku.txt": {
-            type: "file",
-            content: "Visual Sudoku Solver using CNN + Backtracking"
-          },
-          "deepfake.txt": {
-            type: "file",
-            content: "DeepFake Detection using CNN and ResNet"
-          }
+          "sudoku.py": { type: "file", content: "CNN + Backtracking solver." },
+          "deepfake.sh": { type: "file", content: "ResNet pipeline for detection." }
         }
       },
-
-      contact: {
+      "skills": {
         type: "file",
-        content: "GitHub: aryan-ml\nEmail: example@email.com"
+        content: "Languages: Python, C++, JS\nTech: PyTorch, Linux, Docker"
       },
-
-      ".hidden": {
-        type: "dir",
-        children: {
-          "secret.txt": {
-            type: "file",
-            content: "👀 Curious minds find hidden things."
-          }
-        }
+      "contact": {
+        type: "file",
+        content: "Email: contact@aryan.ml\nGitHub: github.com/aryan-ml"
       }
     }
   }
