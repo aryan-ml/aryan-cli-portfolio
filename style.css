@@ -26,37 +26,80 @@ html, body {
   overflow-y: auto;
 }
 
-/* ASCII banner */
+/* ASCII */
 .ascii-art {
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Courier New", monospace;
   color: var(--green);
   white-space: pre;
   line-height: 1.1;
-  margin-bottom: 24px;
-  overflow-x: auto;
+  margin-bottom: 20px;
 }
+
+/* Landing */
+#landing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.6s ease;
+}
+
+.landing-hint {
+  margin-top: 20px;
+  color: var(--blue);
+}
+
+.landing-hint span {
+  color: var(--yellow);
+}
+
+body.started #landing {
+  height: auto;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+#landing-hint {
+  text-align: center;
+  color: var(--blue);
+  margin-top: -40px;
+  transition: opacity 0.4s ease;
+}
+
+#landing-hint span {
+  color: var(--yellow);
+}
+
+body.started #landing-hint {
+  opacity: 0;
+  pointer-events: none;
+}
+
 
 /* Output */
 #terminal-output {
+  display: none;
   margin-bottom: 20px;
+}
+
+body.started #terminal-output {
+  display: block;
 }
 
 .output {
   margin: 6px 0;
-  white-space: pre-wrap;
 }
 
-/* Prompt & input */
+/* Input */
 #input-line {
   display: flex;
   align-items: center;
-  margin-top: 20px;
 }
 
 #prompt {
   color: var(--green);
   margin-right: 6px;
-  white-space: nowrap;
 }
 
 #command-input {
@@ -65,31 +108,18 @@ html, body {
   border: none;
   outline: none;
   color: var(--text);
-  font-family: inherit;
   font-size: 16px;
 }
 
+.output div {
+  margin: 4px 0;
+}
+
+
 /* Semantic colors */
-.directory {
-  color: var(--green);
-}
-
-.file {
-  color: var(--text);
-}
-
-.path {
-  color: var(--blue);
-}
-
-.command {
-  color: var(--yellow);
-}
-
-.error {
-  color: var(--red);
-}
-
-.highlight-purple {
-  color: var(--purple);
-}
+.directory { color: var(--green); }
+.file { color: var(--text); }
+.path { color: var(--blue); }
+.command { color: var(--yellow); }
+.error { color: var(--red); }
+.highlight-purple { color: var(--purple); }

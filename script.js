@@ -1,208 +1,113 @@
-const output = document.getElementById("terminal-output");
-const input = document.getElementById("command-input");
-const prompt = document.getElementById("prompt");
+document.addEventListener("DOMContentLoaded", () => {
+  const output = document.getElementById("terminal-output");
+  const input = document.getElementById("command-input");
+  const prompt = document.getElementById("prompt");
 
-/* ---------------- FILE SYSTEM ---------------- */
+  let started = false;
+  let cwd = "~";
+  let history = [];
+  let historyIndex = -1;
 
-const fs = {
-  "~": {
-    type: "dir",
-    content: {
-      "about.txt": {
-        type: "file",
-        content: "Hi, I'm Aryan.\nBTech CSE (AI/ML).\nInterested in ML systems and research."
-      },
-      "skills.txt": {
-        type: "file",
-        content: "Python\nC++\nMachine Learning\nDeep Learning\nLinux"
-      },
-      "projects": {
-        type: "dir",
-        content: {
-          "sudoku.txt": {
-            type: "file",
-            content: "Visual Sudoku Solver using CNN + Backtracking"
-          },
-          "deepfake.txt": {
-            type: "file",
-            content: "DeepFake Detection using CNN and ResNet"
-          }
-        }
-      },
-      ".hidden": {
-        type: "dir",
-        content: {
-          "secret.txt": {
-            type: "file",
-            content: "👀 You found the secret. Respect."
+  const fs = {
+    "~": {
+      type: "dir",
+      content: {
+        "about.txt": { type: "file", content: "Hi, I'm Aryan." },
+        "skills.txt": { type: "file", content: "Python\nC++\nML\nLinux" },
+        "projects": {
+          type: "dir",
+          content: {
+            "sudoku.txt": { type: "file", content: "Sudoku Solver" },
+            "deepfake.txt": { type: "file", content: "DeepFake Detection" }
           }
         }
       }
     }
-  }
-};
+  };
 
-let cwd = "~";
-let history = [];
-let historyIndex = -1;
+  function updatePrompt() {
+    if (!started) {
+      prompt.textContent = ">";
+      return;
+    }
 
-/* ---------------- HELPERS ---------------- */
-
-function updatePrompt() {
-  prompt.innerHTML =
-    `<span class="highlight-purple">aryan</span>@` +
-    `<span class="path">local</span>:` +
-    `<span class="path">${cwd}</span>$`;
-}
-
-function addOutput(html, className = "") {
-  const div = document.createElement("div");
-  div.className = `output ${className}`;
-  div.innerHTML = html;
-  output.appendChild(div);
-  output.scrollTop = output.scrollHeight;
-}
-
-function getDir(path) {
-  if (path === "~") return fs["~"];
-  const parts = path.replace(/^~\//, "").split("/");
-  let cur = fs["~"];
-  for (const p of parts) {
-    if (!cur.content || !cur.content[p]) return null;
-    cur = cur.content[p];
-  }
-  return cur;
-}
-
-/* ---------------- COMMANDS ---------------- */
-
-function cmd_ls(args) {
-  const dir = getDir(cwd);
-  if (!dir) return;
-
-  let out = "";
-  Object.entries(dir.content)
-    .filter(([n]) => !n.startsWith(".") || args.includes("-a"))
-    .forEach(([name, item]) => {
-      out += item.type === "dir"
-        ? `<span class="directory">${name}/</span> `
-        : `<span class="file">${name}</span> `;
-    });
-
-  addOutput(out || "(empty)");
-}
-
-function cmd_cd(args) {
-  if (!args[0]) {
-    cwd = "~";
-    return;
+    prompt.innerHTML =
+      `<span class="highlight-purple">aryan</span>@` +
+      `<span class="path">local</span>:` +
+      `<span class="path">${cwd}</span>$`;
   }
 
-  const target =
-    args[0] === ".."
-      ? cwd.split("/").slice(0, -1).join("/") || "~"
-      : args[0].startsWith("~")
-        ? args[0]
-        : cwd === "~"
-          ? `~/${args[0]}`
-          : `${cwd}/${args[0]}`;
-
-  const dir = getDir(target);
-  if (!dir || dir.type !== "dir") {
-    addOutput("cd: no such directory", "error");
-    return;
-  }
-  cwd = target;
-}
-
-function cmd_cat(args) {
-  if (!args[0]) {
-    addOutput("cat: missing file", "error");
-    return;
+  function addOutput(html, cls = "") {
+    const div = document.createElement("div");
+    div.className = `output ${cls}`;
+    div.innerHTML = html;
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
   }
 
-  const path = cwd === "~" ? `~/${args[0]}` : `${cwd}/${args[0]}`;
-  const parts = path.replace(/^~\//, "").split("/");
-  const fileName = parts.pop();
-  const dir = getDir("~/" + parts.join("/"));
-
-  if (!dir || !dir.content[fileName] || dir.content[fileName].type !== "file") {
-    addOutput("cat: file not found", "error");
-    return;
+  function getDir(path) {
+    if (path === "~") return fs["~"];
+    const parts = path.replace(/^~\//, "").split("/");
+    let cur = fs["~"];
+    for (const p of parts) {
+      if (!cur.content[p]) return null;
+      cur = cur.content[p];
+    }
+    return cur;
   }
 
-  addOutput(dir.content[fileName].content.replace(/\n/g, "<br>"));
-}
+  function runCommand(cmd) {
+    const [c, ...args] = cmd.split(/\s+/);
 
-function cmd_pwd() {
-  addOutput(`<span class="path">${cwd}</span>`);
-}
-
-function cmd_help() {
+    if (c === "ls") {
+      const dir = getDir(cwd);
+      let out = "";
+      Object.entries(dir.content).forEach(([name, item]) => {
+        out += item.type === "dir"
+          ? `<span class="directory">${name}/</span> `
+          : `<span class="file">${name}</span> `;
+      });
+      addOutput(out);
+    } else if (c === "help") {
   addOutput(`
-<span class="command">ls</span>        list files
-<span class="command">ls -a</span>     show hidden
-<span class="command">cd</span>        change directory
-<span class="command">cat</span>       read file
-<span class="command">pwd</span>       current path
-<span class="command">whoami</span>    about me
-<span class="command">clear</span>     clear screen
+<div><span class="command">ls</span> &nbsp;&nbsp; list files</div>
+<div><span class="command">help</span> &nbsp; show help</div>
+<div><span class="command">clear</span> clear screen</div>
   `);
 }
-
-function cmd_whoami() {
-  addOutput(`<span class="directory">Aryan</span> — AI/ML student, Linux enjoyer.`);
-}
-
-function cmd_clear() {
-  output.innerHTML = "";
-}
-
-/* ---------------- COMMAND DISPATCH ---------------- */
-
-function runCommand(inputText) {
-  addOutput(`${prompt.innerHTML} <span class="command">${inputText}</span>`);
-
-  const [cmd, ...args] = inputText.split(/\s+/);
-
-  switch (cmd) {
-    case "ls": cmd_ls(args); break;
-    case "cd": cmd_cd(args); break;
-    case "cat": cmd_cat(args); break;
-    case "pwd": cmd_pwd(); break;
-    case "help": cmd_help(); break;
-    case "whoami": cmd_whoami(); break;
-    case "clear": cmd_clear(); break;
-    case "": break;
-    default:
-      addOutput(`command not found: ${cmd}`, "error");
+ else if (c === "clear") {
+      output.innerHTML = "";
+    } else {
+      addOutput(`command not found: ${c}`, "error");
+    }
   }
-}
 
-/* ---------------- INPUT ---------------- */
+  input.addEventListener("keydown", e => {
+    if (e.key !== "Enter") return;
 
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
     const value = input.value.trim();
+    input.value = "";
+
+    addOutput(`<span class="command">${value}</span>`);
+
+    if (!started) {
+      if (value === "start") {
+        started = true;
+        document.body.classList.add("started");
+        updatePrompt();
+        addOutput(`Welcome. Type <span class="command">help</span>.`);
+      } else {
+        addOutput(`Type <span class="command">start</span> to continue.`, "error");
+      }
+      return;
+    }
+
     history.push(value);
     historyIndex = history.length;
     runCommand(value);
-    input.value = "";
     updatePrompt();
-  }
+  });
 
-  if (e.key === "ArrowUp" && historyIndex > 0) {
-    historyIndex--;
-    input.value = history[historyIndex];
-  }
-
-  if (e.key === "ArrowDown") {
-    historyIndex = Math.min(history.length, historyIndex + 1);
-    input.value = history[historyIndex] || "";
-  }
+  updatePrompt();
+  input.focus();
 });
-
-/* ---------------- INIT ---------------- */
-
-updatePrompt();
-addOutput(`Type <span class="command">help</span> to get started.`);
