@@ -123,3 +123,9 @@ body.started #terminal-output {
 .command { color: var(--yellow); }
 .error { color: var(--red); }
 .highlight-purple { color: var(--purple); }
+
+
+.cmd-col {
+  display: inline-block;
+  width: 8ch;   /* fixed command column */
+}

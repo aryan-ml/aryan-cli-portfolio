@@ -8,22 +8,101 @@ document.addEventListener("DOMContentLoaded", () => {
   let history = [];
   let historyIndex = -1;
 
+  /* ---------------- FILE SYSTEM ---------------- */
+
   const fs = {
     "~": {
       type: "dir",
       content: {
-        "about.txt": { type: "file", content: "Hi, I'm Aryan." },
-        "skills.txt": { type: "file", content: "Python\nC++\nML\nLinux" },
-        "projects": {
+        home: {
+          type: "file",
+          content: "Welcome to Aryan's interactive CLI portfolio.\nType 'help' to explore."
+        },
+
+        skills: {
+          type: "file",
+          content:
+`• Python
+• C++
+• Machine Learning
+• Deep Learning
+• Linux
+• Git`
+        },
+
+        projects: {
           type: "dir",
           content: {
-            "sudoku.txt": { type: "file", content: "Sudoku Solver" },
-            "deepfake.txt": { type: "file", content: "DeepFake Detection" }
+            "sudoku.txt": {
+              type: "file",
+              content: "Visual Sudoku Solver using CNN + Backtracking"
+            },
+            "deepfake.txt": {
+              type: "file",
+              content: "DeepFake Detection using CNN and ResNet"
+            }
+          }
+        },
+
+        certifications: {
+          type: "file",
+          content:
+`• Google Project Management
+• NPTEL Deep Learning for NLP`
+        },
+
+        achievements: {
+          type: "file",
+          content:
+`• Marathon finisher
+• Patent filed (AI-related)`
+        },
+
+        research: {
+          type: "file",
+          content:
+`• DeepFake Detection (IEEE draft)
+• Ongoing AI patent work`
+        },
+
+        education: {
+          type: "file",
+          content:
+`BTech CSE (AI/ML)
+CGPA: 7.75`
+        },
+
+        resume: {
+          type: "file",
+          content: "Download resume: resume.pdf"
+        },
+
+        contact: {
+          type: "file",
+          content:
+`GitHub: aryan-ml
+Email: your@email.com`
+        },
+
+        ".hidden": {
+          type: "dir",
+          content: {
+            "secret.txt": {
+              type: "file",
+              content:
+`🎉 You found the easter egg!
+
+"Curiosity is the real terminal command."
+
+Email me this quote 😉`
+            }
           }
         }
       }
     }
   };
+
+  /* ---------------- HELPERS ---------------- */
 
   function updatePrompt() {
     if (!started) {
@@ -40,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function addOutput(html, cls = "") {
     const div = document.createElement("div");
     div.className = `output ${cls}`;
-    div.innerHTML = html;
+    div.innerHTML = html.replace(/\n/g, "<br>");
     output.appendChild(div);
     output.scrollTop = output.scrollHeight;
   }
@@ -56,10 +135,40 @@ document.addEventListener("DOMContentLoaded", () => {
     return cur;
   }
 
-  function runCommand(cmd) {
-    const [c, ...args] = cmd.split(/\s+/);
+  function resolvePath(name) {
+    if (name === "~") return "~";
+    if (cwd === "~") return `~/${name}`;
+    return `${cwd}/${name}`;
+  }
 
-    if (c === "ls") {
+  /* ---------------- TAB COMPLETION ---------------- */
+
+  function tabComplete() {
+    const value = input.value;
+    const parts = value.split(" ");
+    const last = parts.pop();
+
+    const dir = getDir(cwd);
+    if (!dir) return;
+
+    const options = Object.keys(dir.content).filter(k =>
+      k.startsWith(last)
+    );
+
+    if (options.length === 1) {
+      parts.push(options[0]);
+      input.value = parts.join(" ");
+    }
+  }
+
+  /* ---------------- COMMANDS ---------------- */
+
+  function runCommand(cmdLine) {
+    addOutput(`${prompt.innerHTML} <span class="command">${cmdLine}</span>`);
+
+    const [cmd, ...args] = cmdLine.split(/\s+/);
+
+    if (cmd === "ls") {
       const dir = getDir(cwd);
       let out = "";
       Object.entries(dir.content).forEach(([name, item]) => {
@@ -68,36 +177,110 @@ document.addEventListener("DOMContentLoaded", () => {
           : `<span class="file">${name}</span> `;
       });
       addOutput(out);
-    } else if (c === "help") {
+    }
+
+    else if (cmd === "cd") {
+      if (!args[0]) {
+        cwd = "~";
+      } else {
+        const target = resolvePath(args[0]);
+        const dir = getDir(target);
+        if (dir && dir.type === "dir") cwd = target;
+        else addOutput("cd: no such directory", "error");
+      }
+    }
+
+    else if (cmd === "cat") {
+      if (!args[0]) {
+        addOutput("cat: missing file", "error");
+        return;
+      }
+      const path = resolvePath(args[0]);
+      const parts = path.replace(/^~\//, "").split("/");
+      const file = parts.pop();
+      const dir = getDir("~/" + parts.join("/"));
+      if (!dir || !dir.content[file] || dir.content[file].type !== "file") {
+        addOutput("cat: file not found", "error");
+        return;
+      }
+      addOutput(dir.content[file].content);
+    }
+
+    else if (cmd === "pwd") {
+      addOutput(cwd);
+    }
+
+    else if (cmd === "date") {
+      addOutput(new Date().toString());
+    }
+
+    else if (cmd === "resume") {
+      addOutput("Resume available as resume.pdf");
+    }
+
+    else if (cmd === "whoami") {
+      addOutput("Aryan — AI/ML student, runner, builder.");
+    }
+
+    else if (cmd === "help") {
+  const rows = [
+    ["ls", "list sections"],
+    ["cd", "change section"],
+    ["cat", "read section content"],
+    ["pwd", "show current path"],
+    ["date", "show system date"],
+    ["resume", "download resume"],
+    ["whoami", "about me"],
+    ["clear", "clear terminal"]
+  ];
+
+  const formatted = rows.map(
+    ([cmd, desc]) =>
+      `- <span class="command cmd-col">${cmd}</span> ${desc}`
+  );
+
+  addOutput(formatted.join("<br>"));
+
   addOutput(`
-<div><span class="command">ls</span> &nbsp;&nbsp; list files</div>
-<div><span class="command">help</span> &nbsp; show help</div>
-<div><span class="command">clear</span> clear screen</div>
+
+<span class="command">Guide:</span> try <span class="command">ls</span> then <span class="command">cd projects</span>  
   `);
 }
- else if (c === "clear") {
+
+
+
+
+    else if (cmd === "clear") {
       output.innerHTML = "";
-    } else {
-      addOutput(`command not found: ${c}`, "error");
+    }
+
+    else {
+      addOutput(`command not found: ${cmd}`, "error");
     }
   }
 
+  /* ---------------- INPUT ---------------- */
+
   input.addEventListener("keydown", e => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      tabComplete();
+      return;
+    }
+
     if (e.key !== "Enter") return;
 
     const value = input.value.trim();
     input.value = "";
-
-    addOutput(`<span class="command">${value}</span>`);
 
     if (!started) {
       if (value === "start") {
         started = true;
         document.body.classList.add("started");
         updatePrompt();
-        addOutput(`Welcome. Type <span class="command">help</span>.`);
+        addOutput("Welcome. Type <span class='command'>help</span> to explore.");
       } else {
-        addOutput(`Type <span class="command">start</span> to continue.`, "error");
+        addOutput("Type <span class='command'>start</span> to continue.", "error");
       }
       return;
     }
