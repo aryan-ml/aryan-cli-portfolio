@@ -293,4 +293,59 @@ Email me this quote 😉`
 
   updatePrompt();
   input.focus();
+/* -------- ASCII WAVE ANIMATION -------- */
+/* -------- TRUE ASCII WAVE (HOME ONLY) -------- */
+
+const waveEl = document.getElementById("ascii-wave");
+
+const NAME_END_COL = 46;   // start from N
+const WAVE_WIDTH_PAD = 2;
+
+let phase = 0;
+
+// tuning
+const WAVE_FREQ = 0.36;    // wavelength (lower = longer waves)
+const WAVE_SPEED = 0.2;  // animation speed
+const WAVE_HEIGHT = 1;    // vertical amplitude (rows)
+
+/*
+  We draw 3 rows:
+  row -1
+  row  0
+  row +1
+*/
+function renderWave() {
+  if (!waveEl) return;
+
+  if (!started) {
+    waveEl.textContent = "";
+    return;
+  }
+
+  const cols = Math.floor(window.innerWidth / 9);
+  let rows = ["", "", ""]; // top, middle, bottom
+
+  // pad until end of ARYAN (N)
+  for (let i = 0; i < NAME_END_COL; i++) {
+    rows[0] += " ";
+    rows[1] += " ";
+    rows[2] += " ";
+  }
+
+  for (let x = NAME_END_COL; x < cols; x++) {
+    const y = Math.sin(x * WAVE_FREQ + phase) * WAVE_HEIGHT;
+
+    rows[0] += y > 0.6 ? "~" : " ";
+    rows[1] += Math.abs(y) <= 0.6 ? "-" : " ";
+    rows[2] += y < -0.6 ? "~" : " ";
+  }
+
+  waveEl.textContent = rows.join("\n");
+  phase += WAVE_SPEED;
+}
+
+
+setInterval(renderWave, 80);
+
 });
+

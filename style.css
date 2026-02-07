@@ -129,3 +129,75 @@ body.started #terminal-output {
   display: inline-block;
   width: 8ch;   /* fixed command column */
 }
+
+#ascii-separator {
+  width: 100%;
+  max-width: 680px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--green),
+    transparent
+  );
+  margin: 12px 0 18px 0;
+  opacity: 0.8;
+  transition: all 0.6s ease;
+}
+
+body.started #ascii-separator {
+  max-width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--green),
+    var(--green),
+    rgba(126, 231, 135, 0.4),
+    transparent
+  );
+  opacity: 0.9;
+}
+
+body.started #ascii-separator {
+  height: 2px;
+}
+
+
+/* show wave only AFTER start */
+body.started #ascii-wave {
+  opacity: 0.8;
+}
+
+#ascii-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* wave overlays INSIDE ASCII */
+#ascii-wave {
+  position: absolute;
+  top: 50%;                  /* CENTER vertically */
+  transform: translateY(-50%);
+  left: 0;
+
+  font-family: "Courier New", monospace;
+  color: var(--green);
+  white-space: pre;
+  line-height: 1;
+  height: 5em;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+/* show wave only AFTER start */
+body.started #ascii-wave {
+  opacity: 0.85;
+}
+
+#terminal {
+  height: 100vh;
+  padding: 32px 40px;
+  overflow-y: auto;
+  overflow-x: hidden; /* ✅ IMPORTANT */
+}
