@@ -170,26 +170,68 @@ Email me this quote 😉`
     const [cmd, ...args] = cmdLine.split(/\s+/);
 
     if (cmd === "ls") {
-      const dir = getDir(cwd);
-      let out = "";
-      Object.entries(dir.content).forEach(([name, item]) => {
-        out += item.type === "dir"
-          ? `<span class="directory">${name}/</span> `
-          : `<span class="file">${name}</span> `;
-      });
-      addOutput(out);
-    }
+  const dir = getDir(cwd);
+  if (!dir) return;
+
+  const showHidden = args.includes("-a");
+
+  let out = "";
+
+  Object.entries(dir.content)
+    .filter(([name]) => {
+      if (showHidden) return true;
+      return !name.startsWith(".");
+    })
+    .forEach(([name, item]) => {
+      if (item.type === "dir") {
+        out += `<span class="directory">${name}/</span>  `;
+      } else {
+        out += `<span class="file">${name}</span>  `;
+      }
+    });
+
+  addOutput(out.trim());
+}
+
 
     else if (cmd === "cd") {
-      if (!args[0]) {
-        cwd = "~";
-      } else {
-        const target = resolvePath(args[0]);
-        const dir = getDir(target);
-        if (dir && dir.type === "dir") cwd = target;
-        else addOutput("cd: no such directory", "error");
-      }
-    }
+  if (!args[0]) {
+    cwd = "~";
+    return;
+  }
+
+  const target = args[0];
+
+  // Handle cd ~
+  if (target === "~") {
+    cwd = "~";
+    return;
+  }
+
+  // Handle cd ..
+  if (target === "..") {
+    if (cwd === "~") return;
+
+    const parts = cwd.split("/");
+    parts.pop();
+
+    cwd = parts.length === 1 ? "~" : parts.join("/");
+    return;
+  }
+
+  // Handle normal directory navigation
+  const newPath =
+    cwd === "~" ? `~/${target}` : `${cwd}/${target}`;
+
+  const dir = getDir(newPath);
+
+  if (dir && dir.type === "dir") {
+    cwd = newPath;
+  } else {
+    addOutput("cd: no such directory", "error");
+  }
+}
+
 
     else if (cmd === "cat") {
       if (!args[0]) {
