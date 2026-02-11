@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const output = document.getElementById("terminal-output");
   const input = document.getElementById("command-input");
   const prompt = document.getElementById("prompt");
+  const commandPanel = document.getElementById("command-panel");
 
   let started = false;
   let cwd = "~";
@@ -223,28 +224,7 @@ Email me this quote 😉`
     }
 
     else if (cmd === "help") {
-  const rows = [
-    ["ls", "list sections"],
-    ["cd", "change section"],
-    ["cat", "read section content"],
-    ["pwd", "show current path"],
-    ["date", "show system date"],
-    ["resume", "download resume"],
-    ["whoami", "about me"],
-    ["clear", "clear terminal"]
-  ];
-
-  const formatted = rows.map(
-    ([cmd, desc]) =>
-      `- <span class="command cmd-col">${cmd}</span> ${desc}`
-  );
-
-  addOutput(formatted.join("<br>"));
-
-  addOutput(`
-
-<span class="command">Guide:</span> try <span class="command">ls</span> then <span class="command">cd projects</span>  
-  `);
+  commandPanel.classList.toggle("visible");
 }
 
 
