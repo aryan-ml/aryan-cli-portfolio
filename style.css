@@ -230,3 +230,47 @@ body.started #command-panel.visible {
   opacity: 0.7;
 }
 
+/* -------- Structured Section Output -------- */
+
+.section {
+  margin: 20px 0;
+  padding: 18px 22px;
+
+  border-left: 3px solid var(--green);
+  background: rgba(126, 231, 135, 0.05);
+
+  line-height: 1.7;
+}
+
+.section-title {
+  color: var(--green);
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.section-content {
+  color: var(--text);
+  opacity: 0.9;
+  white-space: pre-wrap;
+}
+
+.section-meta {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--blue);
+  opacity: 0.8;
+}
+
+.ascii-colored {
+  font-family: "Courier New", monospace;
+  font-size: 18.5px;         /* adjust between 5–8 */
+  line-height: 0.9;     /* 9 is option */
+  letter-spacing: 0px;
+
+  background: transparent;   /* important */
+  padding: 0;
+  margin: 0 0 20px 0;
+
+  overflow-x: auto;
+  display: inline-block;
+}

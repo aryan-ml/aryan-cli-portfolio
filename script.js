@@ -233,21 +233,32 @@ Email me this quote 😉`
 }
 
 
-    else if (cmd === "cat") {
-      if (!args[0]) {
-        addOutput("cat: missing file", "error");
-        return;
-      }
-      const path = resolvePath(args[0]);
-      const parts = path.replace(/^~\//, "").split("/");
-      const file = parts.pop();
-      const dir = getDir("~/" + parts.join("/"));
-      if (!dir || !dir.content[file] || dir.content[file].type !== "file") {
-        addOutput("cat: file not found", "error");
-        return;
-      }
-      addOutput(dir.content[file].content);
-    }
+  else if (cmd === "cat") {
+  if (!args[0]) {
+    addOutput("cat: missing file", "error");
+    return;
+  }
+
+  const path = resolvePath(args[0]);
+  const parts = path.replace(/^~\//, "").split("/");
+  const file = parts.pop();
+  const dir = getDir("~/" + parts.join("/"));
+
+  if (!dir || !dir.content[file] || dir.content[file].type !== "file") {
+    addOutput("cat: file not found", "error");
+    return;
+  }
+
+  addOutput(`
+    <div class="section">
+      <div class="section-title">${file}</div>
+      <div class="section-content">
+${dir.content[file].content}
+      </div>
+    </div>
+  `);
+}
+
 
     else if (cmd === "pwd") {
       addOutput(cwd);
@@ -261,9 +272,34 @@ Email me this quote 😉`
       addOutput("Resume available as resume.pdf");
     }
 
-    else if (cmd === "whoami") {
-      addOutput("Aryan — AI/ML student, runner, builder.");
-    }
+   else if (cmd === "whoami") {
+
+  const asciiPhoto =
+    document.getElementById("whoami-ascii").innerHTML;
+
+  addOutput(`
+    <div class="section">
+      <div class="section-title">whoami</div>
+
+      <div class="ascii-photo">
+        ${asciiPhoto}
+      </div>
+
+      <div class="section-content">
+Aryan  
+AI/ML Student  
+Runner • Builder  
+Focused on ML Systems & Research
+      </div>
+
+      <div class="section-meta">
+Status: Research Mode  
+Location: India
+      </div>
+    </div>
+  `);
+}
+
 
     else if (cmd === "help") {
   commandPanel.classList.toggle("visible");
