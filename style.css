@@ -273,4 +273,14 @@ body.started #command-panel.visible {
 
   overflow-x: auto;
   display: inline-block;
+  text-shadow: 0 0 2px rgba(126, 231, 135, 0.3);
+}
+
+.section {
+  animation: fadeInSection 0.4s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInSection {
+  to { opacity: 1; }
 }

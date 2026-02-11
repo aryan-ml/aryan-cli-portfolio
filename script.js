@@ -17,7 +17,17 @@ document.addEventListener("DOMContentLoaded", () => {
       content: {
         home: {
           type: "file",
-          content: "Welcome to Aryan's interactive CLI portfolio.\nType 'help' to explore."
+          content: `Aryan Agrawal\n \nBTech Computer Science (AI/ML Specialization)
+          
+Currently working on:
+• DeepFake Detection (completed research phase)
+• Target Speaker Detection in Multi-Speaker Audio
+• Accent-Based Native Language Identification
+
+Interested in building inter-domain AI systems 
+that integrate vision, speech, and robust learning architectures.
+
+Type 'ls' to explore more :]`
         },
 
         skills: {
@@ -242,7 +252,15 @@ Email me this quote 😉`
   const path = resolvePath(args[0]);
   const parts = path.replace(/^~\//, "").split("/");
   const file = parts.pop();
-  const dir = getDir("~/" + parts.join("/"));
+
+  let dir;
+
+if (parts.length === 0) {
+  // file is in root (~)
+  dir = fs["~"];
+} else {
+  dir = getDir("~/" + parts.join("/"));
+}
 
   if (!dir || !dir.content[file] || dir.content[file].type !== "file") {
     addOutput("cat: file not found", "error");
@@ -286,10 +304,26 @@ ${dir.content[file].content}
       </div>
 
       <div class="section-content">
-Aryan  
-AI/ML Student  
-Runner • Builder  
-Focused on ML Systems & Research
+Aryan
+
+AI/ML undergraduate focused on building reliable, real-world AI systems.
+
+My work sits at the intersection of:
+• Computer Vision
+• Speech Processing
+• Deep Learning System Design
+
+I am particularly interested in inter-domain models that combine
+perception (vision + audio) with robust learning architectures.
+
+Beyond model training, I explore:
+• Testing ideas across domains,
+• 
+• Deployment constraints in practical systems
+
+Long-term direction:
+Research and develop scalable AI systems
+that perform reliably outside controlled environments.
       </div>
 
       <div class="section-meta">
@@ -336,7 +370,7 @@ Location: India
         started = true;
         document.body.classList.add("started");
         updatePrompt();
-        addOutput("Welcome. Type <span class='command'>help</span> to explore.");
+        addOutput("Welcome to Aryan's interactive CLI portfolio. Type <span class='command'>help</span> to explore. \n Enjoy :)");
       } else {
         addOutput("Type <span class='command'>start</span> to continue.", "error");
       }
