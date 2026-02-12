@@ -284,3 +284,41 @@ body.started #command-panel.visible {
 @keyframes fadeInSection {
   to { opacity: 1; }
 }
+
+.cert-image {
+  max-width: 600px;
+  width: 100%;
+  margin-top: 12px;
+  border: 1px solid rgba(126, 231, 135, 0.3);
+  border-radius: 6px;
+}
+
+.resume-link {
+  color: var(--green);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.resume-link:hover {
+  color: var(--yellow);
+}
+
+.contact-link {
+  color: var(--green);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.contact-link:hover {
+  color: var(--yellow);
+}
+
+.project-link {
+  color: var(--green);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.project-link:hover {
+  color: var(--yellow);
+}

@@ -33,66 +33,276 @@ Type 'ls' to explore more :]`
         skills: {
           type: "file",
           content:
-`• Python
+`Languages:
+• Python
 • C++
-• Machine Learning
-• Deep Learning
+
+Machine Learning:
+• Deep Learning (CNN, ResNet, transfer learning)
+• Model training & evaluation
+• Dataset preprocessing & augmentation
+• Classical ML baselines
+
+Domains:
+• Computer Vision
+• Speech / Audio / Signal Processing
+• Inter-domain AI systems
+
+Tools & Libraries:
+• TensorFlow
+• PyTorch
+• scikit-learn
+• OpenCV
+• NumPy, Pandas, Matplotlib
+
+Systems:
 • Linux
-• Git`
+• Git
+• CLI-based workflows
+
+Currently learning:
+• Shell scripting
+• AWS`
         },
 
         projects: {
           type: "dir",
           content: {
-            "sudoku.txt": {
-              type: "file",
-              content: "Visual Sudoku Solver using CNN + Backtracking"
-            },
             "deepfake.txt": {
-              type: "file",
-              content: "DeepFake Detection using CNN and ResNet"
-            }
-          }
-        },
+      type: "file",
+      content: `
+DeepFake Detection System
+
+Domain: Computer Vision / Robust Classification
+
+• CNN & ResNet architectures
+• Tackled dataset bias & overfitting
+• Evaluated generalization on unseen samples
+• Structured into IEEE-style documentation
+
+GitHub: <a href="https://github.com/aryan-ml/DeepFakeDetection" target="_blank" class="project-link">github.com/aryan-ml/DeepFakeDetection</a>
+
+Live on: <a href="https://deepfake-video-detection.streamlit.app/" target="_blank" class="project-link">Streamlit</a>
+
+`
+    },
+
+    "sudoku.txt": {
+      type: "file",
+      content: `
+Visual Sudoku Solver
+
+Domain: Computer Vision + Search Algorithms
+
+• CNN digit recognition
+• Backtracking solver
+• GUI-based interactive system
+• Real-time grid detection
+
+GitHub: <a href="https://github.com/aryan-ml/Sudoku-Solver-using-KNN-and-Backtracking" target="_blank" class="project-link">github.com/aryan-ml/SudokuSolver</a>
+`
+    },
+
+    "target-speaker.txt": {
+      type: "file",
+      content: `
+Target Speaker Detection
+
+Domain: Speech Processing / Audio AI
+
+• Multi-speaker separation
+• Attention-based & embedding-based approaches
+• Robust modeling under noisy conditions
+
+Status: Ongoing Research Project
+`
+    },
+
+    "accent-l2.txt": {
+      type: "file",
+      content: `
+Accent-Based Native Language Identification
+
+Domain: Speech Classification
+
+• Acoustic + phonetic feature learning
+• L2 English speech modeling
+• Accent robustness research
+
+Status: Ongoing
+`
+    },
+
+    "laser-microphone.txt": {
+  type: "file",
+  content: `
+Laser Microphone System
+
+Domain: Signal Processing / Hardware-Software Integration
+
+Overview:
+Designed and implemented a laser-based remote audio sensing system
+capable of capturing sound through surface vibration detection.
+
+Technical Highlights:
+• Used laser reflection to detect micro-vibrations
+• Signal amplification & filtering pipeline
+• Analog-to-digital conversion for processing
+• Noise reduction & signal stabilization
+
+Impact:
+• 1st Place – Technical Exhibition
+• Demonstrated non-contact audio capture system`
+},
+
+  }
+},
 
         certifications: {
-          type: "file",
-          content:
-`• Google Project Management
-• NPTEL Deep Learning for NLP`
-        },
+  type: "dir",
+  content: {
+    "nptel.png": {
+      type: "file",
+      content: "In progress, thanks for reading"
+    },
+    "cs50.png": {
+      type: "image",
+      src: "assets/CS50.png"
+    },
+    "MLE.png": {
+      type: "image",
+      src: "assets/Google MLE.png"
+    },
+    "supervised_learning.png": {
+      type: "image",
+      src: "assets/Supervised Machine.png"
+    }
+  }
+},
 
         achievements: {
           type: "file",
           content:
-`• Marathon finisher
-• Patent filed (AI-related)`
+`Technical:
+• 1st Place – Tech Exhibition (Laser Audio System)
+• 2nd Place – Tech Greek Quiz (150+ participants)
+• 6th Place – Binary Blitz Hackathon (300+ teams)
+• Top 30% – Kaggle ML Competition
+
+Innovation:
+• Filed System optimization related patent
+• Filed braille output synchronization related patent
+
+Personal:
+• Marathoner (42Km)
+• State level Swimmer
+• State level shuttler 
+• NCC 'A' Certificate`
         },
 
         research: {
           type: "file",
           content:
-`• DeepFake Detection (IEEE draft)
-• Ongoing AI patent work`
+`Research Focus: Robust Multi-Modal AI Systems
+
+I work on building AI systems that remain reliable under noise,
+distribution shift, and real-world complexity.
+
+---
+
+DeepFake Detection (Vision)
+
+• Binary classification using CNN & ResNet architectures  
+• Faced dataset bias & small-sample generalization challenges  
+• Explored robustness, transfer learning & evaluation metrics  
+• Structured into IEEE-style documentation (draft stage)
+
+---
+
+Target Speaker Detection (Multi-Speaker Audio)
+
+• Problem: isolate a target speaker in overlapping speech  
+• Exploring attention mechanisms & speaker embeddings  
+• Focus on robustness in noisy acoustic environments  
+
+---
+
+Accent-Based Native Language Identification (L2 English)
+
+• Classifying native language from English speech  
+• Studying acoustic + phonetic feature representations  
+• Goal: generalizable modeling across accent variability  
+
+---
+
+Innovation & Patents
+
+• Elevator Optimization System  
+  AI-based system-level optimization concept  
+  Focused on efficiency, scheduling & real-world deployment logic  
+
+• Braille-to-Lyrics Synchronization Device  
+  Hardware-software integrated accessibility innovation  
+  Synchronizes tactile output with lyrical audio in real-time  
+
+---
+
+Long-Term Direction
+
+Building cross-domain AI systems integrating:
+Vision + Speech + Optimization + Real-world deployment.`
         },
 
         education: {
           type: "file",
           content:
-`BTech CSE (AI/ML)
-CGPA: 7.75`
+`BTech – Computer Science (AI/ML Specialization)
+Lovely Professional University
+• Focus: Machine Learning, Deep Learning, Systems
+
+Higher Secondary (11th–12th)
+Orchids The International School, Mumbai
+• PCM Stream
+• Developed early interest in computing & problem solving
+
+Secondary Education (10th)
+Delhi Public School, Vadodara
+• Built foundational discipline & academic base`
         },
 
         resume: {
-          type: "file",
-          content: "Download resume: resume.pdf"
-        },
+  type: "file",
+  content: `
+Resume Options:
+
+<a href="assets/Aryan CV.pdf" target="_blank" class="resume-link">
+Open Resume in new tab
+</a>
+
+<a href="assets/Aryan CV.pdf" download class="resume-link">
+Download Resume locally 
+</a>
+`
+},
+
 
         contact: {
           type: "file",
           content:
-`GitHub: aryan-ml
-Email: your@email.com`
+`$ contact --open
+
+[ github ]     <a href="https://github.com/aryan-ml" target="_blank" class="contact-link">github.com/aryan-ml</a>
+[ linkedin ]   <a href="https://www.linkedin.com/in/aryan-agr/" target="_blank" class="contact-link">linkedin.com/in/aryan-agr</a>
+[ email ]      aryan.agrawal0425@gmail.com
+
+Status: Open to research collaborations,
+AI systems work, and inter-domain experimentation.
+
+If you're reading this via ls -a,
+we'll probably get along.
+
+)> Message me with the easter egg and we can work on something interesting <(
+`
         },
 
         ".hidden": {
@@ -101,11 +311,19 @@ Email: your@email.com`
             "secret.txt": {
               type: "file",
               content:
-`🎉 You found the easter egg!
+`Well done you found the hidden file, tho you weren't supposed to be here!
+which is exactly why i respect it.
 
-"Curiosity is the real terminal command."
 
-Email me this quote 😉`
+"Curiosity is the real terminal command." 
+                                      ~Aryan
+
+
+message me this quote :)
+
+I appreciate curious minds
+and people those who ask “why?”.
+`
             }
           }
         }
@@ -255,26 +473,44 @@ Email me this quote 😉`
 
   let dir;
 
-if (parts.length === 0) {
-  // file is in root (~)
-  dir = fs["~"];
-} else {
-  dir = getDir("~/" + parts.join("/"));
-}
+  if (parts.length === 0) {
+    dir = fs["~"];
+  } else {
+    dir = getDir("~/" + parts.join("/"));
+  }
 
-  if (!dir || !dir.content[file] || dir.content[file].type !== "file") {
+  if (!dir || !dir.content[file]) {
     addOutput("cat: file not found", "error");
     return;
   }
 
-  addOutput(`
-    <div class="section">
-      <div class="section-title">${file}</div>
-      <div class="section-content">
-${dir.content[file].content}
+  const item = dir.content[file];
+
+  // 🔹 IMAGE SUPPORT
+  if (item.type === "image") {
+    addOutput(`
+      <div class="section">
+        <div class="section-title">${file}</div>
+        <img src="${item.src}" class="cert-image" />
       </div>
-    </div>
-  `);
+    `);
+    return;
+  }
+
+  // 🔹 NORMAL FILE SUPPORT
+  if (item.type === "file") {
+    addOutput(`
+      <div class="section">
+        <div class="section-title">${file}</div>
+        <div class="section-content">
+${item.content}
+        </div>
+      </div>
+    `);
+    return;
+  }
+
+  addOutput("cat: unsupported file type", "error");
 }
 
 
@@ -318,16 +554,20 @@ perception (vision + audio) with robust learning architectures.
 
 Beyond model training, I explore:
 • Testing ideas across domains,
-• 
-• Deployment constraints in practical systems
+
+When not working with models,
+I’m probably running marathons, swimming, 
+or learning something new just because it looked interesting.
 
 Long-term direction:
 Research and develop scalable AI systems
 that perform reliably outside controlled environments.
+
+Currently building beyond curriculum through independent research & system design.
       </div>
 
       <div class="section-meta">
-Status: Research Mode  
+Status: Always busy  
 Location: India
       </div>
     </div>
